@@ -1,4 +1,5 @@
-# 👨‍💻 Contributing Engineers
+# Team XOR
+## 👨‍💻 Contributing Engineers
 
 ---
 
@@ -7,7 +8,7 @@
 | # | Name        |  ID |
 |---|------------|-------------|
 | 1 | Amrit Singh    | 814994     |
-| 2 | Bhumika Jan | ENG-002     |
-| 3 | Navreet Kaur | 816453   |
+| 2 | Bhumika | 817088     |
+| 3 | Navreet Kaur | ENG-003   |
 
 ---
