@@ -1,1 +1,13 @@
-# CSCI-275
+# 👨‍💻 Contributing Engineers
+
+---
+
+## 📋 Contributors
+
+| # | Name        |  ID |
+|---|------------|-------------|
+| 1 | Amrit Singh    | ENG-001     |
+| 2 | Bhumika Jan | ENG-002     |
+| 3 | Navreet Kaur | ENG-003   |
+
+---
