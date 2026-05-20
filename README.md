@@ -1,9 +1,7 @@
 # Team XOR
-## 👨‍💻 Contributing Engineers
 
 ---
-
-## 📋 Contributors
+## 👨‍💻 Contributing Engineers
 
 | # | Name        |  ID |
 |---|------------|-------------|
