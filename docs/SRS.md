@@ -24,13 +24,8 @@ The Moderation System shall use the following systems:
 
 | Term | Description |
 |--------|------------|
-| Moderator | User responsible for reviewing and managing content |
-| Vendor | Restaurant owner or business representative |
-| Review | User-generated restaurant feedback |
-| Report | User-submitted complaint about content |
-| Ticket | Support request submitted to the moderation team |
-| Verification | Process of validating restaurant ownership |
 | SRS | Software Requirements Specification |
+|FR-* | Functional Requirement |
 
 ---
 
@@ -69,6 +64,10 @@ The Moderation System shall provide the following functions:
 #### Moderator
 
 Responsible for reviewing reports, moderating content, and responding to support requests.
+
+#### Vendor / Customer
+
+Users who submit reports and support requests.
 
 ### 2.4 Operating Environment
 
@@ -149,7 +148,7 @@ The system shall display reported reviews.
 
 ##### FR-RM-02
 
-The moderator shall review review content.
+The moderator shall  review content.
 
 ##### FR-RM-03
 
@@ -345,10 +344,6 @@ Role-based access control shall be enforced.
 
 All moderation actions shall be logged.
 
-#### NFR-S-04
-
-Sensitive data shall be encrypted during transmission.
-
 #### NFR-S-05
 
 The system shall protect against unauthorized access.
@@ -372,14 +367,6 @@ The system shall recover from failures without data loss.
 #### NFR-U-01
 
 Moderators shall be able to navigate moderation tools without specialized training.
-
-#### NFR-U-02
-
-Moderation actions shall require no more than three user interactions.
-
-#### NFR-U-03
-
-Error messages shall clearly describe problems and corrective actions.
 
 ---
 
