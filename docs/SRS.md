@@ -42,24 +42,10 @@ Restaurant Review Platform
 ├── Restaurant Management System
 ├── Review Management System
 ├── Search System
-├── Notification System ( Optional )
 └── Moderation System
 ```
 
-### 2.2 Product Functions
-
-The Moderation System shall provide the following functions:
-
-- Verify restaurant ownership requests
-- Review reported reviews
-- Review reported media
-- Remove inappropriate content
-- Process customer support requests
-- Process vendor support requests
-- Track moderation actions
-- Maintain moderation logs
-
-### 2.3 User Classes and Characteristics
+### 2.2 User Classes and Characteristics
 
 #### Moderator
 
@@ -69,7 +55,7 @@ Responsible for reviewing reports, moderating content, and responding to support
 
 Users who submit reports and support requests.
 
-### 2.4 Operating Environment
+### 2.3 Operating Environment
 
 The system shall operate through modern web browsers including:
 
@@ -80,19 +66,12 @@ The system shall operate through modern web browsers including:
 
 The backend shall operate on Linux-based servers.
 
-### 2.5 Design and Implementation Constraints
+### 2.4 Design and Implementation Constraints
 
 - All moderation actions must be logged.
 - Only authorized moderators may access moderation tools.
 - The system must comply with privacy regulations.
 - Uploaded media must pass moderation checks before public visibility.
-
-### 2.6 Assumptions and Dependencies
-
-- Users are authenticated before accessing the platform.
-- Reviews and images are stored in the platform database.
-- AI-based moderation services may be integrated.
-- Support ticket services are available.
 
 ---
 
@@ -102,19 +81,19 @@ The backend shall operate on Linux-based servers.
 
 #### 3.1.1 Description and Priority
 
-This feature allows moderators to verify restaurant ownership claims submitted by restaurant owners.
+This feature allows moderators to verify restaurant existence status.
 
-**Priority:** High
+**Priority:** Medium
 
 #### 3.1.2 Functional Requirements
 
 ##### FR-RV-01
 
-The system shall display pending restaurant verification requests.
+The moderator shall view submitted verification documents.
 
 ##### FR-RV-02
 
-The moderator shall view submitted verification documents.
+The system shall display pending restaurant verification requests.
 
 ##### FR-RV-03
 
@@ -128,15 +107,11 @@ The moderator shall reject restaurant verification requests.
 
 The system shall store verification decisions.
 
-##### FR-RV-06
-
-The system shall notify restaurant owners of verification decisions.
-
 ### 3.2 Review Moderation
 
 #### 3.2.1 Description and Priority
 
-This feature allows moderators to review and manage reported reviews.
+This feature allows moderators to review the content of review.
 
 **Priority:** High
 
@@ -144,11 +119,11 @@ This feature allows moderators to review and manage reported reviews.
 
 ##### FR-RM-01
 
-The system shall display reported reviews.
+The system shall display reviews before available for public.
 
 ##### FR-RM-02
 
-The moderator shall  review content.
+The moderator shall review content.
 
 ##### FR-RM-03
 
@@ -157,14 +132,6 @@ The moderator shall remove reviews that violate platform policies.
 ##### FR-RM-04
 
 The moderator shall restore reviews removed by mistake.
-
-##### FR-RM-05
-
-The system shall record review moderation actions.
-
-##### FR-RM-06
-
-The system shall maintain moderation history.
 
 ### 3.3 Media Moderation
 
@@ -178,7 +145,7 @@ This feature allows moderators to review uploaded images and media.
 
 ##### FR-MM-01
 
-The system shall display reported images.
+The system shall display media before available for public.
 
 ##### FR-MM-02
 
@@ -230,7 +197,7 @@ The moderator shall take actions on valid reports.
 
 #### 3.5.1 Description and Priority
 
-This feature allows moderators to manage customer support requests.
+This feature allows moderators to manage customer support requests such as account recovery as well as vendor support such as unable to change status of restaurant or food menu.
 
 **Priority:** Medium
 
@@ -256,45 +223,15 @@ The moderator shall close resolved tickets.
 
 The system shall maintain ticket history.
 
-### 3.6 Vendor Support Management
+### 3.6 Moderation Logging
 
 #### 3.6.1 Description and Priority
 
-This feature allows moderators to handle restaurant owner support requests.
-
-**Priority:** Medium
-
-#### 3.6.2 Functional Requirements
-
-##### FR-VS-01
-
-The system shall display vendor support tickets.
-
-##### FR-VS-02
-
-The moderator shall respond to vendor requests.
-
-##### FR-VS-03
-
-The moderator shall update ticket status.
-
-##### FR-VS-04
-
-The moderator shall close resolved tickets.
-
-##### FR-VS-05
-
-The system shall store support history.
-
-### 3.7 Moderation Logging
-
-#### 3.7.1 Description and Priority
-
 This feature records all moderation activities performed within the platform.
 
-**Priority:** High
+**Priority:** low
 
-#### 3.7.2 Functional Requirements
+#### 3.6.2 Functional Requirements
 
 ##### FR-ML-01
 
@@ -369,14 +306,3 @@ The system shall recover from failures without data loss.
 Moderators shall be able to navigate moderation tools without specialized training.
 
 ---
-
-## 5. Glossary
-
-| Term | Description |
-|--------|------------|
-| Moderator | User responsible for reviewing and managing content |
-| Vendor | Restaurant owner or business representative |
-| Review | User-generated restaurant feedback |
-| Report | User-submitted complaint about content |
-| Ticket | Support request submitted to the moderation team |
-| Verification | Process of validating restaurant ownership |
