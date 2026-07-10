@@ -74,180 +74,98 @@ The backend shall operate on Linux-based servers.
 - Uploaded media must pass moderation checks before public visibility.
 
 ---
-
 ## 3. System Features
 
 ### 3.1 Restaurant Verification
 
-#### 3.1.1 Description and Priority
+### 3.1.1 Description and Priority
 
-This feature allows moderators to verify restaurant existence status.
+The Restaurant Verification feature automatically verifies restaurants based on customer reviews. Instead of requiring external documents or third-party verification services, the system evaluates customer feedback submitted through the platform.
 
-**Priority:** Medium
-
-#### 3.1.2 Functional Requirements
-
-##### FR-RV-01
-
-The moderator shall view submitted verification documents.
-
-##### FR-RV-02
-
-The system shall display pending restaurant verification requests.
-
-##### FR-RV-03
-
-The moderator shall approve restaurant verification requests.
-
-##### FR-RV-04
-
-The moderator shall reject restaurant verification requests.
-
-##### FR-RV-05
-
-The system shall store verification decisions.
-
-### 3.2 Review Moderation
-
-#### 3.2.1 Description and Priority
-
-This feature allows moderators to review the content of review.
+A restaurant is considered **Verified** when it has received at least **four reviews** from **four different registered users**, and each review has a rating greater than or equal to **2.5 stars**. This approach ensures that only restaurants with sufficient and reasonably positive customer engagement receive the Verified status.
 
 **Priority:** High
 
-#### 3.2.2 Functional Requirements
+### 3.1.2 Functional Requirements
 
-##### FR-RM-01
+#### FR-RV-01
+The system shall monitor the number of reviews submitted for each restaurant.
 
-The system shall display reviews before available for public.
+#### FR-RV-02
+The system shall verify that the reviews used for verification are submitted by different registered users.
 
-##### FR-RM-02
+#### FR-RV-03
+The system shall verify that each review used for verification has a rating greater than or equal to **2.5 stars**.
 
-The moderator shall review content.
+#### FR-RV-04
+The system shall automatically assign a **Verified** status to a restaurant when it has received at least **four valid reviews** from **four different registered users**, each with a rating of **2.5 stars or higher**.
 
-##### FR-RM-03
+#### FR-RV-05
+The system shall display a **Verified Badge** on the restaurant profile after successful verification.
 
+#### FR-RV-06
+The system shall record every restaurant verification event in the moderation log.
+
+#### FR-RV-07
+The system shall consider only active reviews that have not been removed by moderators when determining whether a restaurant qualifies for verification.
+
+---
+
+## 3.2 Review Moderation
+
+### 3.2.1 Description and Priority
+
+This feature allows moderators to manually review reported customer reviews. Reviews reported by users shall be inspected by moderators before any moderation action is taken.
+
+**Priority:** High
+
+### 3.2.2 Functional Requirements
+
+#### FR-RM-01
+The system shall display reported reviews to moderators.
+
+#### FR-RM-02
+The moderator shall manually review reported reviews.
+
+#### FR-RM-03
 The moderator shall remove reviews that violate platform policies.
 
-##### FR-RM-04
+#### FR-RM-04
+The moderator shall retain reviews that comply with platform policies.
 
-The moderator shall restore reviews removed by mistake.
+#### FR-RM-05
+The system shall record all review moderation actions.
 
-### 3.3 Media Moderation
+#### FR-RM-06
+The system shall maintain a history of all review moderation activities.
 
-#### 3.3.1 Description and Priority
+---
 
-This feature allows moderators to review uploaded images and media.
+## 3.3 Media Moderation
 
-**Priority:** High
+### 3.3.1 Description and Priority
 
-#### 3.3.2 Functional Requirements
-
-##### FR-MM-01
-
-The system shall display media before available for public.
-
-##### FR-MM-02
-
-The moderator shall review uploaded media.
-
-##### FR-MM-03
-
-The moderator shall remove inappropriate media.
-
-##### FR-MM-04
-
-The moderator shall approve acceptable media.
-
-##### FR-MM-05
-
-The system shall log media moderation actions.
-
-### 3.4 Content Reporting Management
-
-#### 3.4.1 Description and Priority
-
-This feature manages reports submitted by users.
+This feature allows moderators to manually review images and other media reported by users. Moderators determine whether the uploaded media complies with the platform's content guidelines.
 
 **Priority:** High
 
-#### 3.4.2 Functional Requirements
+### 3.3.2 Functional Requirements
 
-##### FR-CR-01
+#### FR-MM-01
+The system shall display reported media to moderators.
 
-The system shall allow users to report content.
+#### FR-MM-02
+The moderator shall manually review reported media.
 
-##### FR-CR-02
+#### FR-MM-03
+The moderator shall approve media that complies with platform policies.
 
-The system shall store report details.
+#### FR-MM-04
+The moderator shall remove inappropriate or prohibited media.
 
-##### FR-CR-03
+#### FR-MM-05
+The system shall record all media moderation actions.
 
-The moderator shall review submitted reports.
-
-##### FR-CR-04
-
-The moderator shall dismiss invalid reports.
-
-##### FR-CR-05
-
-The moderator shall take actions on valid reports.
-
-### 3.5 Customer Support Management
-
-#### 3.5.1 Description and Priority
-
-This feature allows moderators to manage customer support requests such as account recovery as well as vendor support such as unable to change status of restaurant or food menu.
-
-**Priority:** Medium
-
-#### 3.5.2 Functional Requirements
-
-##### FR-CS-01
-
-The system shall display customer support tickets.
-
-##### FR-CS-02
-
-The moderator shall respond to support requests.
-
-##### FR-CS-03
-
-The moderator shall update ticket status.
-
-##### FR-CS-04
-
-The moderator shall close resolved tickets.
-
-##### FR-CS-05
-
-The system shall maintain ticket history.
-
-### 3.6 Moderation Logging
-
-#### 3.6.1 Description and Priority
-
-This feature records all moderation activities performed within the platform.
-
-**Priority:** low
-
-#### 3.6.2 Functional Requirements
-
-##### FR-ML-01
-
-The system shall record all moderation actions.
-
-##### FR-ML-02
-
-The system shall record the moderator responsible for each action.
-
-##### FR-ML-03
-
-The system shall record timestamps for all moderation actions.
-
-##### FR-ML-04
-
-The system shall provide moderation history for auditing purposes.
 
 ---
 
