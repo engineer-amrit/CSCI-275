@@ -166,6 +166,78 @@ The moderator shall remove inappropriate or prohibited media.
 #### FR-MM-05
 The system shall record all media moderation actions.
 
+## 3.4 Reports Management
+
+### 3.4.1 Description and Priority
+
+The Reports Management feature allows registered users to report restaurants and customer reviews that violate the platform's policies. Reports may be submitted for reasons such as inappropriate content, fake information, spam, duplicate listings, offensive language, misleading reviews, or other policy violations.
+
+All submitted reports are placed in the moderation queue for manual review. Moderators evaluate each report and determine whether further action is required.
+
+**Priority:** High
+
+### 3.4.2 Functional Requirements
+
+#### Restaurant Reports
+
+##### FR-RP-01
+The system shall allow registered users to report a restaurant.
+
+##### FR-RP-02
+The system shall require users to select a reason when reporting a restaurant.
+
+##### FR-RP-03
+The system shall allow users to provide additional comments with the report.
+
+##### FR-RP-04
+The system shall store all restaurant reports.
+
+##### FR-RP-05
+The system shall display pending restaurant reports to moderators.
+
+##### FR-RP-06
+The moderator shall manually review restaurant reports.
+
+##### FR-RP-07
+The moderator shall dismiss invalid restaurant reports.
+
+##### FR-RP-08
+The moderator shall take appropriate action if a restaurant report is valid.
+
+---
+
+#### Review Reports
+
+##### FR-RP-09
+The system shall allow registered users to report any customer review.
+
+##### FR-RP-10
+The system shall require users to select a reason when reporting a review.
+
+##### FR-RP-11
+The system shall allow users to provide additional comments describing the reported review.
+
+##### FR-RP-12
+The system shall store all review reports.
+
+##### FR-RP-13
+The system shall display reported reviews to moderators for manual review.
+
+##### FR-RP-14
+The moderator shall manually review each reported review.
+
+##### FR-RP-15
+The moderator shall remove reviews that violate the platform's policies.
+
+##### FR-RP-16
+The moderator shall dismiss reports for reviews that comply with the platform's policies.
+
+##### FR-RP-17
+The system shall record all moderation actions related to restaurant reports and review reports.
+
+##### FR-RP-18
+The system shall maintain a history of all submitted reports and their resolution status.
+
 
 ---
 
