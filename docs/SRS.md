@@ -240,6 +240,55 @@ The system shall maintain a history of all submitted reports and their resolutio
 
 
 ---
+### 3.5 Customer Support Management
+#### 3.5.1 Description and Priority 
+This feature allows moderators to manage customer support requests such as account recovery as well as vendor support such as unable to change status of restaurant or food menu.
+**Priority:** Medium
+#### 3.5.2 Functional Requirements 
+##### FR-CS-01 
+The system shall display customer support tickets. 
+##### FR-CS-02 
+The moderator shall respond to support requests. 
+##### FR-CS-03 
+The moderator shall update ticket status. 
+##### FR-CS-04
+The moderator shall close resolved tickets. 
+##### FR-CS-05
+The system shall maintain ticket history.
+
+---
+### 3.6 Moderation History
+
+#### 3.6.1 Description and Priority
+
+This feature maintains a history of moderation actions to support auditing
+and allow moderators to undo previous actions when necessary.
+
+**Priority:** Low
+
+#### 3.6.2 Functional Requirements
+
+##### FR-MH-01
+
+The system shall maintain a history of all moderation actions performed in
+the following features:
+
+* Restaurant Verification
+* Review Moderation
+* Media Moderation
+* Content Reporting Management
+* Customer Support Management
+
+##### FR-MH-02
+
+The system shall allow moderators to view the history of moderation
+actions.
+
+##### FR-MH-03
+
+The system shall allow authorized moderators to undo supported moderation
+actions using the recorded history.
+
 
 ## 4. Non-Functional Requirements
 
