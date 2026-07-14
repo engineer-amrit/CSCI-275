@@ -1,0 +1,18 @@
+{
+  "name": "@config/ts",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./base": "./src/base.json",
+    "./node": "./src/node.json",
+    "./react": "./src/react.json"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "clean:modules": "rm -rf node_modules"
+  }
+}

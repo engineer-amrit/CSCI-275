@@ -1,0 +1,30 @@
+{
+  "name": "@config/eslint",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    "./base": "./src/base.ts",
+    "./node": "./src/node.ts",
+    "./react": "./src/react.ts"
+  },
+  "devDependencies": {
+    "@config/ts": "workspace:^",
+    "@eslint/js": "^9.39.2",
+    "@eslint/json": "^1.2.0",
+    "@utils/config": "workspace:^",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "eslint-plugin-turbo": "^2.5.8",
+    "globals": "^17.5.0",
+    "typescript-eslint": "^8.58.2"
+  },
+  "scripts": {
+    "clean:modules": "rm -rf node_modules",
+    "check-types": "tsc --noEmit",
+    "knip": "knip --config knip.config.ts"
+  }
+}

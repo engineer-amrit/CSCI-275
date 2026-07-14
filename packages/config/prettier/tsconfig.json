@@ -1,0 +1,6 @@
+{
+    "extends": "@config/ts/node",
+    "compilerOptions": {
+        "noEmit": true
+    }
+}

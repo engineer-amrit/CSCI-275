@@ -1,0 +1,33 @@
+{
+  "name": "CSCI-275",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "turbo  build",
+    "script:dev": "pnpm --filter @scripts/deploy dev",
+    "script": " pnpm --filter @scripts/deploy start",
+    "dev:ecom": "turbo  watch --filter=@backend/ecom --filter=@web/ecom-admin dev",
+    "clean": "turbo  clean",
+    "clear:out": "rm -rf out",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "check-types": "turbo run check-types",
+    "knip": "turbo run knip",
+    "clean:modules": "turbo run clean:modules && rm -rf node_modules "
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.5.0",
+      "onFail": "download"
+    }
+  },
+  "type": "module",
+  "devDependencies": {
+    "prettier": "^3.9.5",
+    "turbo": "^2.10.4"
+  }
+}

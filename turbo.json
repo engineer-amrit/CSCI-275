@@ -1,0 +1,88 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "tasks": {
+    "build": {
+      "cache": true,
+      "dependsOn": [
+        "^build",
+        "^generate"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "src/**"
+      ],
+      "outputs": [
+        "dist/**"
+      ],
+      "env": []
+    },
+    "check-types": {
+      "dependsOn": [
+        "^build",
+        "generate",
+        "^check-types"
+      ],
+      "inputs": [
+        "src/**",
+        "!**/node_modules/**"
+      ]
+    },
+    "clean": {
+      "cache": false,
+      "persistent": false
+    },
+    "dev": {
+      "cache": false,
+      "dependsOn": [
+        "^build",
+        "^generate"
+      ],
+      "persistent": true,
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "src/**"
+      ],
+      "outputs": [
+        "dist/**"
+      ]
+    },
+    "generate": {
+      "outputs": [
+        "dist/**",
+        "src/client/**"
+      ],
+      "inputs": [
+        "prisma/schema/**"
+      ]
+    },
+    "lint": {
+      "dependsOn": [
+        "^lint"
+      ]
+    },
+    "knip": {
+      "dependsOn": [
+        "^knip"
+      ]
+    },
+    "clean:modules": {
+      "cache": false,
+      "outputs": [
+        "node_modules/**"
+      ]
+    },
+    "test": {
+      "dependsOn": [
+        "^build",
+        "^generate",
+        "^test"
+      ],
+      "inputs": [
+        "src/**",
+        "test/**",
+        "!**/node_modules/**"
+      ]
+    }
+  },
+  "ui": "tui"
+}

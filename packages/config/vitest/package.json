@@ -1,0 +1,17 @@
+{
+  "name": "@config/vitest",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/vitest.config.ts",
+  "types": "./src/vitest.config.ts",
+  "devDependencies": {
+    "@config/ts": "workspace:*",
+    "vitest": "^4.1.4"
+  },
+  "scripts": {
+    "clean:modules": "rm -rf node_modules",
+    "clean": "rm -rf *.tsbuildinfo",
+    "check-types": "tsc"
+  }
+}

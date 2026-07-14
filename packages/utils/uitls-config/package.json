@@ -1,0 +1,23 @@
+{
+  "name": "@utils/config",
+  "version": "1.0.0",
+  "type": "module",
+  "description": " Shared configuration files for TypeScript, ESLint, and other tools (zero-build)",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo",
+    "check-types": "tsc --noEmit",
+    "clean:modules": "rm -rf node_modules"
+  },
+  "devDependencies": {
+    "@config/ts": "workspace:^"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

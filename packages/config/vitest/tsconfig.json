@@ -1,0 +1,8 @@
+{
+    "extends": "@config/ts/node",
+    "compilerOptions": {
+        "rootDir": "./src",
+        "outDir": "dist",
+        "noEmit": true,
+    }
+}
