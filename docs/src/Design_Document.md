@@ -1339,13 +1339,15 @@ stateDiagram-v2
 ```mermaid
 stateDiagram-v2
 
+    state "Under Review" as UnderReview
+
     [*] --> Pending
 
-    Pending --> "Under Review"
+    Pending --> UnderReview
 
-    "Under Review" --> Resolved
+    UnderReview --> Resolved
 
-    "Under Review" --> Rejected
+    UnderReview --> Rejected
 
     Resolved --> [*]
 
@@ -1357,11 +1359,13 @@ stateDiagram-v2
 ```mermaid
 stateDiagram-v2
 
+    state "In Progress" as InProgress
+
     [*] --> Pending
 
-    Pending --> "In Progress"
+    Pending --> InProgress
 
-    "In Progress" --> Resolved
+    InProgress --> Resolved
 
     Resolved --> Closed
 
