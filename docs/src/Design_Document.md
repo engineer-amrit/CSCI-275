@@ -7,24 +7,20 @@ Restaurant Review Platform. It presents the overall architecture, major software
 components, database design, API design, and the interactions between system
 components.
 
-The functional and non-functional requirements are defined in the Software
-Requirements Specification (SRS) and are not repeated in this document.
-
 ### 1.1 Definitions, Acronyms, and Abbreviations
 
-| Acronym | Definition                          |
-| ------- | ----------------------------------- |
-| API     | Application Programming Interface   |
-| CRUD    | Create, Read, Update, Delete        |
-| ERD     | Entity Relationship Diagram         |
-| JWT     | JSON Web Token                      |
-| ORM     | Object-Relational Mapper            |
-| REST    | Representational State Transfer     |
-| SDD     | Software Design Document            |
-| SRS     | Software Requirements Specification |
-| UI      | User Interface                      |
-| UML     | Unified Modeling Language           |
-| UX      | User Experience                     |
+| Acronym | Definition                        |
+| ------- | --------------------------------- |
+| API     | Application Programming Interface |
+| CRUD    | Create, Read, Update, Delete      |
+| ERD     | Entity Relationship Diagram       |
+| JWT     | JSON Web Token                    |
+| ORM     | Object-Relational Mapper          |
+| REST    | Representational State Transfer   |
+| SDD     | Software Design Document          |
+| UI      | User Interface                    |
+| UML     | Unified Modeling Language         |
+| UX      | User Experience                   |
 
 ### 1.2 References
 
@@ -59,15 +55,18 @@ layers.
 
 The Moderation System is implemented using the following technologies.
 
-| Category        | Technology |
-| --------------- | ---------- |
-| Language        | TypeScript |
-| Framework       | Express.js |
-| Database        | PostgreSQL |
-| ORM             | Prisma ORM |
-| Validation      | Zod        |
-| Authentication  | JWT        |
-| Package Manager | pnpm       |
+| Category         | Technology               |
+| ---------------- | ------------------------ |
+| Language         | TypeScript => JavaScript |
+| Framework        | Express.js               |
+| Database         | PostgreSQL               |
+| ORM              | Prisma ORM               |
+| Validation       | Zod                      |
+| Authentication   | TBD=>JWT /Session        |
+| Package Manager  | pnpm                     |
+| Testing          | Jest / Vitest            |
+| CI/CD            | GitHub Actions           |
+| CodeBase Manager | TurboRepo                |
 
 ## 3. System Architecture
 
@@ -130,7 +129,7 @@ flowchart TD
 #### API Layer
 
 Receives client requests and forwards them to the appropriate service for
-processing.
+processing. This layer include sub-modules like controllers and middleware.
 
 #### Service Layer
 
@@ -170,11 +169,11 @@ business rules and does not require moderator intervention.
 
 **Design**
 
-Every newly created restaurant is assigned an **Unverified** status.
+Every newly created restaurant is assigned an `Unverified` status.
 
 Whenever a user submits a new review, the component evaluates the restaurant
 against the verification criteria. If all conditions are satisfied, the
-restaurant status is updated to **Verified**.
+restaurant status is updated to `Verified`.
 
 Verification is performed only once. After a restaurant has been verified,
 subsequent review updates or deletions do not trigger another verification
@@ -240,13 +239,17 @@ platform policies and apply the appropriate moderation actions.
 
 **Design**
 
-When media is uploaded or reported, the component retrieves the media for
-moderator review. Moderators inspect the content and determine whether it
-complies with the platform guidelines.
+When media is uploaded by a user or vendor, it is initially stored in a private
+storage bucket where it is visible only to the uploader. The media is marked as
+pending moderation and is not accessible to other users.
 
-If the media violates the moderation policies, the moderator may remove the
-media and record the moderation decision. Otherwise, the media remains available
-on the platform.
+Moderators review the uploaded media to determine whether it complies with the
+platform's moderation policies. If the media is approved, it is transferred to
+the public storage bucket and becomes publicly accessible. If the media violates
+the moderation policies, it remains in the private bucket or is removed,
+depending on the moderation decision.
+
+Every moderation action is recorded for auditing purposes.
 
 **Moderation Actions**
 
@@ -263,6 +266,7 @@ The component interacts with:
 - User Management
 - Restaurant Management
 - Report Management
+- Media Management
 - Database
 
 **Component Diagram**
@@ -279,7 +283,7 @@ flowchart LR
 
     PostgreSQL[(PostgreSQL)]
 
-    Moderator -->|"Review Media"| MediaController
+    Moderator -->|"Review Media / Restaurant Media"| MediaController
 
     MediaController --> MediaService
 
@@ -369,10 +373,10 @@ The component enforces the following rules:
 
 - Customers may submit reports.
 - Vendors may also submit reports.
-- Users cannot report their own restaurants.
+- Vendors cannot report their own restaurants.
 - Users cannot report their own reviews.
 - Duplicate reports for the same target by the same user are not permitted.
-- Every report is created with a **Pending** status.
+- Every report is created with a `Pending` status.
 
 **Report Status**
 
@@ -686,15 +690,14 @@ status codes to indicate the outcome of the request.
 
 ### 6.2 Authentication
 
-All moderation APIs require authentication using JSON Web Tokens (JWT). Access
-to protected endpoints is restricted according to the authenticated user's role.
+All moderation APIs require authentication using any techniques. Access to
+protected endpoints is restricted according to the authenticated user's role.
 
 The Moderation System supports the following roles:
 
-- Customer
+- User
 - Vendor
 - Moderator
-- Administrator
 
 Role-based authorization is enforced before any moderation operation is
 performed.
@@ -790,10 +793,9 @@ functionality.
 
 The system supports the following roles:
 
-- Customer
+- Users
 - Vendor
 - Moderator
-- Administrator
 
 Each role is granted only the permissions required to perform its assigned
 responsibilities.
