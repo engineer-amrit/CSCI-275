@@ -185,4 +185,96 @@ describe('RestaurantService.verify', () => {
     expect(result.isVerified).toBe(false)
     expect(restaurantClient.updateVerificationStatus).not.toHaveBeenCalled()
   })
+
+  it('should verify exactly at the threshold boundary', async () => {
+    restaurantClient.getRestaurantById.mockResolvedValue(
+      baseRestaurant({ id: 'rest-6' }),
+    )
+    restaurantClient.getReviewsByRestaurantId.mockResolvedValue([
+      review('r1', 'rest-6', 'u1', 2.5),
+      review('r2', 'rest-6', 'u2', 2.5),
+      review('r3', 'rest-6', 'u3', 2.5),
+      review('r4', 'rest-6', 'u4', 2.5),
+      review('r5', 'rest-6', 'u5', 2.5),
+    ])
+
+    const result = await service.verify('rest-6')
+
+    expect(result.totalReviews).toBe(5)
+    expect(result.distinctUsers).toBe(5)
+    expect(result.averageRating).toBe(2.5)
+    expect(result.isVerified).toBe(true)
+    expect(restaurantClient.updateVerificationStatus).toHaveBeenCalledWith(
+      'rest-6',
+      true,
+    )
+  })
+})
+
+describe('RestaurantService.checkData', () => {
+  let restaurantClient: {
+    getRestaurantById: Mock<IRestaurantClient['getRestaurantById']>
+    getReviewsByRestaurantId: Mock<
+      IRestaurantClient['getReviewsByRestaurantId']
+    >
+    updateVerificationStatus: Mock<
+      IRestaurantClient['updateVerificationStatus']
+    >
+  }
+  let userAuthClient: IUserAuthClient
+  let service: RestaurantService
+
+  beforeEach(() => {
+    restaurantClient = {
+      getRestaurantById: vi.fn<IRestaurantClient['getRestaurantById']>(),
+      getReviewsByRestaurantId:
+        vi.fn<IRestaurantClient['getReviewsByRestaurantId']>(),
+      updateVerificationStatus:
+        vi.fn<IRestaurantClient['updateVerificationStatus']>(),
+    }
+    userAuthClient = { getUserById: vi.fn() }
+    service = new RestaurantService(
+      restaurantClient as unknown as IRestaurantClient,
+      userAuthClient,
+    )
+  })
+
+  it('should flag a restaurant whose data contains an offensive word', async () => {
+    restaurantClient.getRestaurantById.mockResolvedValue(
+      baseRestaurant({
+        id: 'rest-7',
+        name: 'Trash Bin Burgers',
+        cuisine: 'American',
+      }),
+    )
+
+    const result = await service.checkData('rest-7')
+
+    expect(result.dataStatus).toBe('flagged')
+    expect(result.flaggedWords).toContain('trash')
+  })
+
+  it('should report verified for a restaurant with clean data', async () => {
+    restaurantClient.getRestaurantById.mockResolvedValue(
+      baseRestaurant({
+        id: 'rest-8',
+        name: 'Golden Garden',
+        cuisine: 'Italian',
+        location: 'Vancouver, BC',
+      }),
+    )
+
+    const result = await service.checkData('rest-8')
+
+    expect(result.dataStatus).toBe('verified')
+    expect(result.flaggedWords).toEqual([])
+  })
+
+  it('should throw NotFoundException when the restaurant does not exist', async () => {
+    restaurantClient.getRestaurantById.mockResolvedValue(null)
+
+    await expect(service.checkData('missing')).rejects.toThrow(
+      NotFoundException,
+    )
+  })
 })

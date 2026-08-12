@@ -54,6 +54,14 @@ export interface VerificationResult {
   }
 }
 
+export type DataVerificationStatus = 'verified' | 'flagged'
+
+export interface DataCheckResult {
+  restaurantId: string
+  dataStatus: DataVerificationStatus
+  flaggedWords: string[]
+}
+
 export interface IRestaurantClient {
   getRestaurantById(id: string): Promise<Restaurant | null>
   getReviewsByRestaurantId(restaurantId: string): Promise<Review[]>
