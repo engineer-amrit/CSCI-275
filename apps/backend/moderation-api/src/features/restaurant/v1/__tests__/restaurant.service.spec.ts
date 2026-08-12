@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach, type Mock } from 'vitest'
 import { NotFoundException } from '@nestjs/common'
 import { RestaurantService } from '../restaurant.service.js'
 import type {
@@ -34,18 +34,24 @@ const review = (
 
 describe('RestaurantService.verify', () => {
   let restaurantClient: {
-    getRestaurantById: ReturnType<typeof vi.fn>
-    getReviewsByRestaurantId: ReturnType<typeof vi.fn>
-    updateVerificationStatus: ReturnType<typeof vi.fn>
+    getRestaurantById: Mock<IRestaurantClient['getRestaurantById']>
+    getReviewsByRestaurantId: Mock<
+      IRestaurantClient['getReviewsByRestaurantId']
+    >
+    updateVerificationStatus: Mock<
+      IRestaurantClient['updateVerificationStatus']
+    >
   }
   let userAuthClient: IUserAuthClient
   let service: RestaurantService
 
   beforeEach(() => {
     restaurantClient = {
-      getRestaurantById: vi.fn(),
-      getReviewsByRestaurantId: vi.fn(),
-      updateVerificationStatus: vi.fn(),
+      getRestaurantById: vi.fn<IRestaurantClient['getRestaurantById']>(),
+      getReviewsByRestaurantId:
+        vi.fn<IRestaurantClient['getReviewsByRestaurantId']>(),
+      updateVerificationStatus:
+        vi.fn<IRestaurantClient['updateVerificationStatus']>(),
     }
     userAuthClient = { getUserById: vi.fn() }
     service = new RestaurantService(
@@ -59,9 +65,7 @@ describe('RestaurantService.verify', () => {
 
     await expect(service.verify('missing')).rejects.toThrow(NotFoundException)
     expect(restaurantClient.getReviewsByRestaurantId).not.toHaveBeenCalled()
-    expect(
-      restaurantClient.updateVerificationStatus,
-    ).not.toHaveBeenCalled()
+    expect(restaurantClient.updateVerificationStatus).not.toHaveBeenCalled()
   })
 
   it('should return already verified when the restaurant is verified', async () => {
@@ -80,9 +84,7 @@ describe('RestaurantService.verify', () => {
       averageRating: 0,
     })
     expect(restaurantClient.getReviewsByRestaurantId).not.toHaveBeenCalled()
-    expect(
-      restaurantClient.updateVerificationStatus,
-    ).not.toHaveBeenCalled()
+    expect(restaurantClient.updateVerificationStatus).not.toHaveBeenCalled()
   })
 
   it('should verify a restaurant meeting the review criteria', async () => {
@@ -103,9 +105,10 @@ describe('RestaurantService.verify', () => {
     expect(result.totalReviews).toBe(5)
     expect(result.distinctUsers).toBe(5)
     expect(result.averageRating).toBe(4.2)
-    expect(
-      restaurantClient.updateVerificationStatus,
-    ).toHaveBeenCalledWith('rest-4', true)
+    expect(restaurantClient.updateVerificationStatus).toHaveBeenCalledWith(
+      'rest-4',
+      true,
+    )
   })
 
   it('should not verify when there are fewer than five reviews', async () => {
@@ -123,9 +126,7 @@ describe('RestaurantService.verify', () => {
 
     expect(result.isVerified).toBe(false)
     expect(result.totalReviews).toBe(4)
-    expect(
-      restaurantClient.updateVerificationStatus,
-    ).not.toHaveBeenCalled()
+    expect(restaurantClient.updateVerificationStatus).not.toHaveBeenCalled()
   })
 
   it('should not verify when reviews come from fewer than five users', async () => {
@@ -144,9 +145,7 @@ describe('RestaurantService.verify', () => {
 
     expect(result.distinctUsers).toBe(2)
     expect(result.isVerified).toBe(false)
-    expect(
-      restaurantClient.updateVerificationStatus,
-    ).not.toHaveBeenCalled()
+    expect(restaurantClient.updateVerificationStatus).not.toHaveBeenCalled()
   })
 
   it('should not verify when the average rating is below the threshold', async () => {
@@ -165,9 +164,7 @@ describe('RestaurantService.verify', () => {
 
     expect(result.averageRating).toBe(2)
     expect(result.isVerified).toBe(false)
-    expect(
-      restaurantClient.updateVerificationStatus,
-    ).not.toHaveBeenCalled()
+    expect(restaurantClient.updateVerificationStatus).not.toHaveBeenCalled()
   })
 
   it('should ignore invalid reviews when computing verification', async () => {
@@ -186,8 +183,6 @@ describe('RestaurantService.verify', () => {
 
     expect(result.validReviews).toBe(4)
     expect(result.isVerified).toBe(false)
-    expect(
-      restaurantClient.updateVerificationStatus,
-    ).not.toHaveBeenCalled()
+    expect(restaurantClient.updateVerificationStatus).not.toHaveBeenCalled()
   })
 })
