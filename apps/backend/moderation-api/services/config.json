@@ -1,0 +1,36 @@
+{
+  "services": {
+    "user-auth": {
+      "name": "User Authentication & Rating Service",
+      "repo": "https://github.com/jethromorera/404Error.git",
+      "branch": "main",
+      "port": 3001,
+      "description": "Handles user authentication, JWT tokens, session management, and rating system"
+    },
+    "restaurant": {
+      "name": "Restaurant & Vendor Management Service",
+      "repo": "https://github.com/baseemali/csci275-teamc.git",
+      "branch": "main",
+      "port": 3002,
+      "description": "Manages restaurant data, menus, and vendor operations"
+    },
+    "search": {
+      "name": "Restaurant Discovery Service",
+      "repo": "https://github.com/edrienborigas2003-cloud/Oreo-Mcflurry.git",
+      "branch": "main",
+      "port": 3003,
+      "description": "Provides search and discovery functionality for restaurants"
+    }
+  },
+  "defaults": {
+    "branch": "main",
+    "cloneDir": "./services"
+  },
+  "database": {
+    "name": "alpha_db",
+    "user": "postgres",
+    "password": "postgres",
+    "host": "localhost",
+    "port": 5432
+  }
+}

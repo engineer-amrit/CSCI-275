@@ -1,0 +1,14 @@
+{
+  "extends": "@config/ts/node",
+  "compilerOptions": {
+    "types": ["vitest/globals", "node", "multer"],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "outDir": "./dist",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@test/*": ["./test/*"]
+    }
+  }
+}

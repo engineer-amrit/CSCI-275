@@ -10,12 +10,15 @@
   },
   "scripts": {
     "build": "tsc -b",
+    "lint": "eslint src/",
     "clean": "rm -rf dist tsconfig.tsbuildinfo",
     "check-types": "tsc --noEmit",
     "clean:modules": "rm -rf node_modules"
   },
   "devDependencies": {
-    "@config/ts": "workspace:^"
+    "@config/eslint": "workspace:^",
+    "@config/ts": "workspace:^",
+    "eslint": "^9.14.0"
   },
   "keywords": [],
   "author": "",

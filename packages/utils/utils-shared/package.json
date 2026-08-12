@@ -1,0 +1,24 @@
+
+{
+  "name": "@utils/shared",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "types": "./src/index.ts",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint ./src --ext .ts",
+    "build": "tsc -b ./tsconfig.build.json",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "check-types": "tsc --noEmit --project ./tsconfig.build.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@config/eslint": "workspace:^",
+    "@config/prettier": "workspace:*",
+    "@config/ts": "workspace:^",
+    "@types/common": "workspace:^"
+  }
+}

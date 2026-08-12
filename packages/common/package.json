@@ -1,0 +1,21 @@
+{
+  "name": "@types/common",
+  "version": "1.0.0",
+  "description": "",
+  "types": "src/index.ts",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "clean:modules": "rm -rf node_modules"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@config/eslint": "workspace:^",
+    "@config/prettier": "workspace:^",
+    "@config/ts": "workspace:^",
+    "zod": "4.1.13"
+  }
+}

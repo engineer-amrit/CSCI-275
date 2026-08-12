@@ -1,33 +1,42 @@
 {
-  "name": "CSCI-275",
+  "name": "moderation",
   "version": "1.0.0",
-  "description": "",
+  "description": "Moderation module",
   "scripts": {
-    "build": "turbo  build",
-    "script:dev": "pnpm --filter @scripts/deploy dev",
-    "script": " pnpm --filter @scripts/deploy start",
-    "dev:ecom": "turbo  watch --filter=@backend/ecom --filter=@web/ecom-admin dev",
-    "clean": "turbo  clean",
-    "clear:out": "rm -rf out",
-    "lint": "turbo run lint",
-    "test": "turbo run test",
-    "check-types": "turbo run check-types",
-    "knip": "turbo run knip",
-    "clean:modules": "turbo run clean:modules && rm -rf node_modules "
+    "build": "nest build -b swc --type-check",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "start": "nest start",
+    "dev": "nest start --watch -b swc",
+    "dev:debug": "nest start --debug --watch -b swc",
+    "start:prod": "node dist/main",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "test": "vitest",
+    "knip": "knip --config knip.config.ts",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "test:watch": "vitest --watch",
+    "test:cov": "vitest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "vitest --config vitest.config.ts",
+    "clean:modules": "rm -rf node_modules",
+    "check-types": "tsc --noEmit -p tsconfig.build.json"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devEngines": {
-    "packageManager": {
-      "name": "pnpm",
-      "version": "^11.5.0",
-      "onFail": "download"
-    }
-  },
+  "packageManager": "pnpm@11.5.0",
   "type": "module",
   "devDependencies": {
-    "prettier": "^3.9.5",
-    "turbo": "^2.10.4"
+    "@types/node": "^25.0.2",
+    "eslint": "^9.14.0",
+    "knip": "5.75.2",
+    "turbo": "^2.7.3",
+    "typescript": "6.0.3",
+    "vitest": "4.1.4"
+  },
+  "overrides": {
+    "zod": "4.1.13",
+    "vitest": "4.1.4",
+    "knip": "5.75.2",
+    "eslint": "9.14.0"
   }
 }

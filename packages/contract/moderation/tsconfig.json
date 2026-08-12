@@ -1,0 +1,7 @@
+{
+    "extends": "@config/ts/node",
+    "compilerOptions": {
+        "rootDir": ".",
+        "composite": true,
+    },
+}
