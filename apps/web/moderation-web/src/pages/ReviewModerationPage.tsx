@@ -1,25 +1,22 @@
 import { useState } from "react";
 import { useReviews, useSetLanguageVerified, useUndoReview } from "@/hooks";
+import {
+  computeReviewStats,
+  filterReviews,
+  type ReviewFilter,
+} from "@/utils/reviewStats";
 import type { Review } from "@/types";
-
-type Filter = "all" | "verified" | "unverified";
 
 export function ReviewModerationPage() {
   const { data: reviews, isLoading } = useReviews();
   const setLanguageMutation = useSetLanguageVerified();
   const undoMutation = useUndoReview();
-  const [filter, setFilter] = useState<Filter>("all");
+  const [filter, setFilter] = useState<ReviewFilter>("all");
   const [undoError, setUndoError] = useState<string | null>(null);
 
-  const verified = reviews?.filter((r) => r.isLanguageVerified) ?? [];
-  const unverified = reviews?.filter((r) => !r.isLanguageVerified) ?? [];
-
-  const visible =
-    filter === "verified"
-      ? verified
-      : filter === "unverified"
-        ? unverified
-        : (reviews ?? []);
+  const allReviews = reviews ?? [];
+  const stats = computeReviewStats(allReviews);
+  const visible = filterReviews(allReviews, filter);
 
   const handleUndo = (review: Review) => {
     setUndoError(null);
@@ -43,19 +40,19 @@ export function ReviewModerationPage() {
         <div className="bg-white rounded-xl border border-gray-200 p-5">
           <div className="text-sm text-gray-500">Total Reviews</div>
           <div className="text-3xl font-bold text-gray-900 mt-1">
-            {reviews?.length ?? 0}
+            {stats.total}
           </div>
         </div>
         <div className="bg-white rounded-xl border border-gray-200 p-5">
           <div className="text-sm text-gray-500">Language Verified</div>
           <div className="text-3xl font-bold text-tertiary-600 mt-1">
-            {verified.length}
+            {stats.verified}
           </div>
         </div>
         <div className="bg-white rounded-xl border border-gray-200 p-5">
           <div className="text-sm text-gray-500">Pending Review</div>
           <div className="text-3xl font-bold text-secondary-600 mt-1">
-            {unverified.length}
+            {stats.pending}
           </div>
         </div>
       </div>
@@ -70,11 +67,11 @@ export function ReviewModerationPage() {
       <div className="flex items-center gap-2">
         {(
           [
-            { id: "all", label: `All (${reviews?.length ?? 0})` },
-            { id: "verified", label: `Verified (${verified.length})` },
+            { id: "all", label: `All (${stats.total})` },
+            { id: "verified", label: `Verified (${stats.verified})` },
             {
               id: "unverified",
-              label: `Unverified (${unverified.length})`,
+              label: `Unverified (${stats.pending})`,
             },
           ] as const
         ).map((tab) => (
