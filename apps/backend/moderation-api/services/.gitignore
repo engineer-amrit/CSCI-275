@@ -8,6 +8,9 @@ review/
 media/
 search/
 
+# Cloned service bundles under src/
+src/
+
 # Keep configuration files
 !config.json
 !setup.sh
