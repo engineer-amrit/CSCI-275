@@ -1,15 +1,18 @@
-# Ignore cloned service directories
-# Only keep the configuration files and scripts
+# Microservices live here as regular tracked files so their code is kept
+# in this repository. We only ignore per-service noise.
 
-# Service directories (uncomment when services are cloned)
-user-auth/
-restaurant/
-review/
-media/
-search/
+# node_modules, build artifacts and env files (also covered by root .gitignore)
+*/node_modules/
+node_modules/
+*/dist/
+*/build/
+*/.env
+*/.env.local
+*/.env.development
+*/.env.production
 
-# Cloned service bundles under src/
-src/
+# Postgres/session artifacts
+*.tsbuildinfo
 
 # Keep configuration files
 !config.json
@@ -17,16 +20,3 @@ src/
 !README.md
 !docker-compose.yml
 !Dockerfile.template
-
-# Ignore node_modules in services
-*/node_modules/
-
-# Ignore build artifacts
-*/dist/
-*/build/
-
-# Ignore environment files
-*/.env
-*/.env.local
-*/.env.development
-*/.env.production

@@ -1,0 +1,53 @@
+<%- include('partials/head') %>
+<div class="container wide">
+  <h1>Admin user management</h1>
+  <p class="muted">Authorization & Roles — Guest, Registered User, Reviewer, Moderator, Admin</p>
+  <%
+    const roleLabels = { user: 'Registered User', reviewer: 'Reviewer', moderator: 'Moderator', admin: 'Admin' };
+  %>
+  <table>
+    <tr>
+      <th>ID</th><th>Name</th><th>Email</th><th>Verified</th><th>Role</th><th>Status</th><th>Actions</th>
+    </tr>
+    <% users.forEach(u => { %>
+      <tr>
+        <td><%= u.id %></td>
+        <td><%= u.name %></td>
+        <td><%= u.email %></td>
+        <td><%= u.email_verified ? '✅' : '⏳' %></td>
+        <td>
+          <form action="/admin/users/<%= u.id %>/role" method="POST" class="inline-form">
+            <select name="role" onchange="this.form.submit()" <%= u.id === currentUserId ? 'disabled' : '' %>>
+              <option value="user" <%= u.role === 'user' ? 'selected' : '' %>>Registered User</option>
+              <option value="reviewer" <%= u.role === 'reviewer' ? 'selected' : '' %>>Reviewer</option>
+              <option value="moderator" <%= u.role === 'moderator' ? 'selected' : '' %>>Moderator</option>
+              <option value="admin" <%= u.role === 'admin' ? 'selected' : '' %>>Admin</option>
+            </select>
+          </form>
+        </td>
+        <td>
+          <span class="badge <%= u.banned ? 'banned' : '' %>"><%= u.banned ? 'Banned' : 'Active' %></span>
+        </td>
+        <td>
+          <% if (u.id !== currentUserId) { %>
+            <% if (u.banned) { %>
+              <form action="/admin/users/<%= u.id %>/ban" method="POST" class="inline-form">
+                <input type="hidden" name="banned" value="false" />
+                <button type="submit" class="small-btn unban-btn">Unban</button>
+              </form>
+            <% } else { %>
+              <form action="/admin/users/<%= u.id %>/ban" method="POST" class="inline-form">
+                <input type="hidden" name="banned" value="true" />
+                <button type="submit" class="small-btn ban-btn">Ban</button>
+              </form>
+            <% } %>
+          <% } else { %>
+            <span class="muted small">(you)</span>
+          <% } %>
+        </td>
+      </tr>
+    <% }) %>
+  </table>
+</div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+.restaurant-card {
+  border: 1px solid #ccc;
+  padding: 16px;
+  margin: 12px auto;
+  max-width: 650px;
+  text-align: left;
+  border-radius: 8px;
+  position: relative;
+}
+
+.restaurant-card p {
+  margin: 6px 0;
+}
+
+.favorite-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s;
+}
+
+.favorite-button:hover {
+  border-color: #8b4513;
+}
+
+.favorite-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

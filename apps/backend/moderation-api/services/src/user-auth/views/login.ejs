@@ -1,0 +1,20 @@
+<%- include('partials/head') %>
+<div class="container">
+  <h1>Log in</h1>
+  <p class="muted">Authentication & Sessions</p>
+  <% if (error) { %><div class="<%= error.includes('updated') ? 'msg' : 'err' %>"><%= error %></div><% } %>
+  <form method="POST" action="/login">
+    <label>Email</label>
+    <input type="email" name="email" required />
+    <label>Password</label>
+    <input type="password" name="password" required />
+    <button type="submit">Log in</button>
+  </form>
+  <p class="muted" style="margin-top:16px">
+    <a class="link" href="/forgot-password">Forgot password?</a> ·
+    No account? <a class="link" href="/register">Register</a>
+  </p>
+  <p class="muted" style="margin-top:10px">Demo admin: admin@demo.com / admin123</p>
+</div>
+</body>
+</html>

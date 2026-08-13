@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Restaurant Reviews — Accounts</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<nav>
+  <a href="/" class="brand">🍽️ ReviewHub</a>
+  <div>
+    <% if (locals.loggedIn) { %>
+      <a href="/profile">Profile</a>
+      <% if (locals.role === 'admin') { %><a href="/admin">Admin</a><% } %>
+      <form action="/logout" method="POST" style="display:inline">
+        <a href="#" onclick="this.closest('form').submit(); return false;">Logout</a>
+      </form>
+    <% } else { %>
+      <a href="/login">Login</a>
+      <a href="/register">Register</a>
+    <% } %>
+  </div>
+</nav>

@@ -1,0 +1,51 @@
+<%- include('partials/head') %>
+<%
+  const roleLabels = { user: 'Registered User', reviewer: 'Reviewer', moderator: 'Moderator', admin: 'Admin' };
+%>
+<div class="container">
+  <h1>Your profile</h1>
+  <p class="muted">User Profile · <span class="badge <%= user.role %>"><%= roleLabels[user.role] || user.role %></span></p>
+
+  <% if (!user.email_verified) { %>
+    <div class="err">
+      Your email isn't verified yet. <a class="link" href="/resend-verification">Resend verification link</a>
+    </div>
+  <% } %>
+  <% if (saved) { %><div class="msg">Profile updated!</div><% } %>
+
+  <form method="POST" action="/profile">
+    <label>Profile photo</label>
+    <div class="avatar-crop" id="profileAvatarCrop">
+      <% if (user.avatar_url) { %>
+        <img src="<%= user.avatar_url %>" class="avatar-preview" alt="Current avatar" />
+      <% } %>
+      <input type="file" class="avatar-file-input" accept="image/*" />
+      <div class="avatar-crop-wrap" style="display:none">
+        <canvas class="avatar-crop-canvas" width="180" height="180"></canvas>
+        <label class="crop-label">Zoom</label>
+        <input type="range" class="avatar-zoom-range" min="1" max="3" step="0.01" value="1" />
+        <p class="muted small">Drag the photo to reposition it.</p>
+      </div>
+      <input type="hidden" name="avatar_url" class="avatar-hidden-input" value="<%= user.avatar_url || '' %>" />
+    </div>
+
+    <label>Name</label>
+    <input type="text" name="name" value="<%= user.name %>" required />
+
+    <label>Email (read-only)</label>
+    <input type="email" value="<%= user.email %>" disabled />
+
+    <label>Location</label>
+    <input type="text" name="location" value="<%= user.location || '' %>" placeholder="City, Country" />
+
+    <label>Bio</label>
+    <textarea name="bio" placeholder="Tell other reviewers about yourself..."><%= user.bio || '' %></textarea>
+
+    <button type="submit">Save changes</button>
+  </form>
+  <p class="muted" style="margin-top:16px">Member since <%= new Date(user.created_at).toLocaleDateString() %></p>
+</div>
+<script src="/js/avatar-crop.js"></script>
+<script>initAvatarCrop('profileAvatarCrop');</script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<%- include('partials/head') %>
+<div class="container">
+  <h1>Resend verification email</h1>
+  <p class="muted">Email Verification</p>
+  <% if (message) { %><div class="msg"><%= message %></div><% } %>
+  <% if (verifyLink) { %>
+    <div class="simulated-email-box">
+      <p class="muted small">🔧 Demo mode — simulated link:</p>
+      <a class="link" href="<%= verifyLink %>"><%= verifyLink %></a>
+    </div>
+  <% } %>
+  <form method="POST" action="/resend-verification">
+    <label>Email</label>
+    <input type="email" name="email" required />
+    <button type="submit">Send new link</button>
+  </form>
+  <p class="muted" style="margin-top:16px"><a class="link" href="/login">Back to login</a></p>
+</div>
+</body>
+</html>

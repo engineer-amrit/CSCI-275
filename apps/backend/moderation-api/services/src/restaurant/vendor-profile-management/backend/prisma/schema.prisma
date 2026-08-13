@@ -1,0 +1,134 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String           @id @default(uuid())
+  email         String           @unique
+  password      String
+  name          String
+  role          String           @default("VENDOR")
+  createdAt     DateTime         @default(now())
+  reviews       Review[]
+  flags         ReviewFlag[]
+  responses     ReviewResponse[]
+  vendorProfile Vendor?
+}
+
+model Vendor {
+  id                  String              @id @default(uuid())
+  userId              String              @unique
+  businessName        String
+  verificationStatus  String              @default("UNVERIFIED")
+  notificationEnabled Boolean             @default(true)
+  createdAt           DateTime            @default(now())
+  businessEmail       String?
+  businessPhone       String?
+  description         String?
+  profileCompletion   Int                 @default(0)
+  registeredAddress   String?
+  registrationNumber  String?
+  website             String?
+  logoUrl             String?              
+  updatedAt           DateTime            @updatedAt
+  restaurants         Restaurant[]
+  user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  notifications       VendorNotification?
+}
+
+model Restaurant {
+  id            String                 @id @default(uuid())
+  vendorId      String?
+  name          String
+  description   String?
+  street        String
+  city          String
+  zipcode       String
+  phone         String
+  email         String
+  cuisine       String
+  priceLevel    Int
+  isClaimed     Boolean                @default(false)
+  logoUrl       String?                // 👈 ADD THIS
+  coverUrl      String?                // 👈 ADD THIS
+  createdAt     DateTime               @default(now())
+  updatedAt     DateTime               @updatedAt
+  verifications BusinessVerification[]
+  vendor        Vendor?                @relation(fields: [vendorId], references: [id])
+  hours         RestaurantHours[]
+  tags          RestaurantTag[]
+  reviews       Review[]
+}
+
+model RestaurantHours {
+  id           String     @id @default(uuid())
+  restaurantId String
+  day          String
+  openTime     String
+  closeTime    String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+}
+
+model RestaurantTag {
+  id           String     @id @default(uuid())
+  restaurantId String
+  tagName      String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+}
+
+model BusinessVerification {
+  id           String     @id @default(uuid())
+  restaurantId String
+  documentUrl  String
+  status       String     @default("PENDING")
+  submittedAt  DateTime   @default(now())
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+}
+
+model VendorNotification {
+  id           String  @id @default(uuid())
+  vendorId     String  @unique
+  emailAlerts  Boolean @default(true)
+  reviewAlerts Boolean @default(true)
+  vendor       Vendor  @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+}
+
+model Review {
+  id           String          @id @default(uuid())
+  restaurantId String
+  userId       String
+  rating       Int
+  comment      String
+  createdAt    DateTime        @default(now())
+  restaurant   Restaurant      @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  flags        ReviewFlag[]
+  response     ReviewResponse?
+}
+
+model ReviewResponse {
+  id           String   @id @default(uuid())
+  reviewId     String   @unique
+  vendorId     String?
+  responseText String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  review       Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  vendor       User?    @relation(fields: [vendorId], references: [id])
+}
+
+model ReviewFlag {
+  id        String   @id @default(uuid())
+  reviewId  String
+  vendorId  String?
+  reason    String
+  status    String   @default("PENDING")
+  createdAt DateTime @default(now())
+  review    Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  vendor    User?    @relation(fields: [vendorId], references: [id])
+}

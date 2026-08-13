@@ -1,0 +1,19 @@
+<%- include('partials/head') %>
+<div class="container">
+  <h1>📬 Check your inbox</h1>
+  <p class="muted">Email Verification</p>
+  <div class="msg">We've sent a verification link to <strong><%= email %></strong>.</div>
+  <p class="muted">Click the link in that email to activate your account. The link expires in 24 hours.</p>
+
+  <div class="simulated-email-box">
+    <p class="muted small">🔧 Demo mode — no real email service is connected, so here's the simulated link:</p>
+    <a class="link" href="<%= verifyLink %>"><%= verifyLink %></a>
+  </div>
+
+  <p class="muted" style="margin-top:16px">
+    Didn't get it? <a class="link" href="/resend-verification">Resend verification email</a>
+  </p>
+  <p class="muted" style="margin-top:10px"><a class="link" href="/login">Back to login</a></p>
+</div>
+</body>
+</html>

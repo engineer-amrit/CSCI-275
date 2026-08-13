@@ -1,0 +1,12 @@
+<%- include('partials/head') %>
+<div class="container">
+  <h1>Welcome</h1>
+  <% if (locals.loggedIn) { %>
+    <p class="muted">You're logged in. Go to your <a class="link" href="/profile">profile</a><% if (locals.role === 'admin') { %> or the <a class="link" href="/admin">admin dashboard</a><% } %>.</p>
+  <% } else { %>
+    <p class="muted">You're browsing as a guest — no account needed to be here.</p>
+    <p class="muted">To do more, <a class="link" href="/register">create an account</a> or <a class="link" href="/login">log in</a>.</p>
+  <% } %>
+</div>
+</body>
+</html>
