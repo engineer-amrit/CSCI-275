@@ -37,7 +37,7 @@ All **Team XOR** collaborators are listed in **[collaborators.md](collaborators.
 The documentation is split into chunks and indexed in **[docs/README.md](docs/README.md)**:
 
 - **Requirements & design** — [SRS](docs/src/SRS.md) · [Design Document](docs/src/Design_Document.md)
-- **Reports** — [Test report (.docx)](docs/report/test_report.docx) · individual final reports
+- **Reports** — [Test report](docs/report/test_report.md) · individual final reports
 - **Microservices** — user-auth, restaurant, and search setup docs
 
 ---
@@ -92,9 +92,6 @@ cd apps/web/moderation-web && pnpm run test         # 30 tests
 
 # Quality gates (backend)
 pnpm run check-types && pnpm run lint && pnpm run test
-
-# Regenerate the test report (.docx)
-python3 docs/report/generate_test_report.py
 
 # Stop everything / reset the databases (re-runs the demo seed)
 docker compose down -v
@@ -161,4 +158,4 @@ moderation-web ──► moderation-api ─────────┘
 | ------------------------- | ----- | ------- |
 | Backend unit tests        | 18    | `pnpm run test` in `apps/backend/moderation-api` |
 | Frontend unit tests       | 30    | `pnpm run test` in `apps/web/moderation-web` |
-| End-to-end (Docker stack) | 13    | covered in the [test report](docs/report/test_report.docx) |
+| End-to-end (Docker stack) | 13    | covered in the [test report](docs/report/test_report.md) |

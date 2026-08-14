@@ -18,8 +18,7 @@ This index splits the project documentation into **chunks** and links everything
 
 | Report | Description | Location |
 | ------ | ----------- | -------- |
-| **Test Report (.docx)** | Full test report — automated suites + end-to-end verification | [docs/report/test_report.docx](report/test_report.docx) |
-| Report generator | Python script that produces the test report | [docs/report/generate_test_report.py](report/generate_test_report.py) |
+| **Test Report (.md)** | Full test report — automated suites + end-to-end verification | [docs/report/test_report.md](report/test_report.md) |
 
 ### Individual Final Reports
 
