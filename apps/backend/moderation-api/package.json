@@ -21,12 +21,14 @@
     "@nestjs/common": "^11.1.28",
     "@nestjs/config": "^4.0.4",
     "@nestjs/core": "^11.1.28",
+    "@nestjs/platform-express": "^11.1.29",
     "@types/common": "workspace:*",
     "@utils/shared": "workspace:*",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "multer": "^2.2.0",
     "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {
@@ -39,6 +41,7 @@
     "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
+    "@types/multer": "^2.2.0",
     "@utils/config": "workspace:*",
     "tsx": "^4.23.1",
     "typescript": "6.0.3",

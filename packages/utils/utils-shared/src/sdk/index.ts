@@ -2,7 +2,7 @@ import type { ContractGroupDef } from 'common'
 import { type AxiosInstance } from 'axios'
 import type { SDKMethods } from './sdk.types.js'
 export * from './sdk.types.js'
-import { type AnyObject, flattenToQuery, formDataMaker } from '../form-utils.js'
+import { type AnyObject, flattenToQuery, formDataMaker } from '../formUtils.js'
 
 export class SDK<T extends ContractGroupDef> {
   private base: string
