@@ -7,7 +7,7 @@ export const configSchema = z.object({
   HOST: z.string().default('localhost'),
   DB_HOST: z.string().default('localhost'),
 
-  RESTAURANT_SERVICE_URL: z.string().url().default('http://localhost:3002'),
+  RESTAURANT_SERVICE_URL: z.string().url().default('http://localhost:5000'),
   USER_AUTH_SERVICE_URL: z.string().url().default('http://localhost:3001'),
   SEARCH_SERVICE_URL: z.string().url().default('http://localhost:3003'),
 })

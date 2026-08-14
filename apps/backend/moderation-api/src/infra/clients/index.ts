@@ -1,2 +1,5 @@
-export { MockRestaurantClient } from './restaurant-client.mock'
-export { MockUserAuthClient } from './user-auth-client.mock'
+export { MockRestaurantClient } from './restaurant-client.mock.js'
+export { MockUserAuthClient } from './user-auth-client.mock.js'
+export { RestaurantHttpClient } from './restaurant-client.http.js'
+export { UserAuthHttpClient } from './user-auth-client.http.js'
+export { HttpService, HttpError } from './http.js'
