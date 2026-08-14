@@ -1,7 +1,14 @@
-import { describe, it, expect } from "vitest";
+import { beforeEach, describe, it, expect, vi } from "vitest";
 import { reviewService } from "@/services";
+import { installMockFetch, resetMockState } from "./mockFetch";
 
 describe("reviewService", () => {
+  beforeEach(() => {
+    vi.restoreAllMocks();
+    installMockFetch();
+    resetMockState();
+  });
+
   describe("getAll", () => {
     it("returns a list of reviews", async () => {
       const reviews = await reviewService.getAll();
