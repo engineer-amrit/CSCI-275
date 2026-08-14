@@ -151,6 +151,12 @@ function delay(ms: number): Promise<void> {
 export class MockRestaurantClient implements IRestaurantClient {
   private readonly logger = new Logger(MockRestaurantClient.name)
 
+  async getRestaurants(): Promise<Restaurant[]> {
+    this.logger.warn(`[MOCK] GET restaurants`)
+    await delay(100)
+    return [...mockRestaurants]
+  }
+
   async getRestaurantById(id: string): Promise<Restaurant | null> {
     this.logger.warn(`[MOCK] GET restaurant/${id}`)
     await delay(100)
@@ -167,9 +173,7 @@ export class MockRestaurantClient implements IRestaurantClient {
     id: string,
     isVerified: boolean,
   ): Promise<Restaurant> {
-    this.logger.warn(
-      `[MOCK] PATCH restaurant/${id}/verify → ${isVerified}`,
-    )
+    this.logger.warn(`[MOCK] PATCH restaurant/${id}/verify → ${isVerified}`)
     await delay(100)
     const restaurant = mockRestaurants.find((r) => r.id === id)
     if (!restaurant) throw new Error(`Restaurant '${id}' not found`)

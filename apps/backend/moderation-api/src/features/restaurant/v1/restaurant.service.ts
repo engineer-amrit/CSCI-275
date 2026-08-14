@@ -4,6 +4,9 @@ import type {
   IUserAuthClient,
   VerificationResult,
   DataCheckResult,
+  DataVerificationStatus,
+  Restaurant,
+  Review,
 } from '@/types'
 
 const MIN_REVIEWS = 5
@@ -15,13 +18,19 @@ const OFFENSIVE_WORDS = ['trash', 'stupid', 'disgusting', 'awful', 'horrible']
 @Injectable()
 export class RestaurantService {
   private readonly logger = new Logger(RestaurantService.name)
+  private readonly dataStatusOverrides = new Map<
+    string,
+    DataVerificationStatus
+  >()
 
   constructor(
     @Inject('IRestaurantClient')
     private readonly restaurantClient: IRestaurantClient,
     @Inject('IUserAuthClient')
     private readonly userAuthClient: IUserAuthClient,
-  ) {}
+  ) {
+    void this.userAuthClient
+  }
 
   async verify(restaurantId: string): Promise<VerificationResult> {
     const restaurant =
@@ -101,6 +110,7 @@ export class RestaurantService {
       restaurant.name,
       restaurant.cuisine,
       restaurant.location,
+      restaurant.description ?? '',
     ].map((field) => field.toLowerCase())
     const flaggedWords = OFFENSIVE_WORDS.filter((word) =>
       fields.some((field) => field.includes(word)),
@@ -110,6 +120,66 @@ export class RestaurantService {
       restaurantId,
       dataStatus: flaggedWords.length > 0 ? 'flagged' : 'verified',
       flaggedWords,
+    }
+  }
+
+  async listRestaurants(): Promise<Restaurant[]> {
+    const restaurants = await this.restaurantClient.getRestaurants()
+    return restaurants.map((r) => ({
+      ...r,
+      dataStatus:
+        this.dataStatusOverrides.get(r.id) ?? r.dataStatus ?? 'pending',
+      flaggedWords: r.flaggedWords ?? [],
+    }))
+  }
+
+  async getRestaurant(restaurantId: string): Promise<Restaurant> {
+    const restaurant =
+      await this.restaurantClient.getRestaurantById(restaurantId)
+    if (!restaurant) {
+      throw new NotFoundException(`Restaurant '${restaurantId}' not found`)
+    }
+    return {
+      ...restaurant,
+      dataStatus:
+        this.dataStatusOverrides.get(restaurantId) ??
+        restaurant.dataStatus ??
+        'pending',
+      flaggedWords: restaurant.flaggedWords ?? [],
+    }
+  }
+
+  async getReviews(restaurantId: string): Promise<Review[]> {
+    return this.restaurantClient.getReviewsByRestaurantId(restaurantId)
+  }
+
+  async checkRestaurantData(
+    restaurantId: string,
+  ): Promise<
+    Restaurant & { dataStatus: DataVerificationStatus; flaggedWords: string[] }
+  > {
+    const restaurant = await this.getRestaurant(restaurantId)
+    const result = await this.checkData(restaurantId)
+    return {
+      ...restaurant,
+      dataStatus: result.dataStatus,
+      flaggedWords: result.flaggedWords,
+    }
+  }
+
+  async setDataStatus(
+    restaurantId: string,
+    status: DataVerificationStatus,
+  ): Promise<
+    Restaurant & { dataStatus: DataVerificationStatus; flaggedWords: string[] }
+  > {
+    const restaurant = await this.getRestaurant(restaurantId)
+    this.dataStatusOverrides.set(restaurantId, status)
+    return {
+      ...restaurant,
+      dataStatus: status,
+      flaggedWords:
+        status === 'verified' ? [] : (restaurant.flaggedWords ?? []),
     }
   }
 }
