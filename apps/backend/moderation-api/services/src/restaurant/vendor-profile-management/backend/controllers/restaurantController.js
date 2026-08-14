@@ -68,7 +68,7 @@ exports.getRestaurantProfile = async (req, res) => {
   try {
     const restaurant = await prisma.restaurant.findUnique({
       where: { id: req.params.id },
-      include: { hours: true, tags: true, vendor: true }
+      include: { hours: true, tags: true, vendor: true, verifications: true }
     });
     if (!restaurant) return res.status(404).json({ error: "Restaurant not found" });
     res.status(200).json(restaurant);
@@ -116,9 +116,9 @@ exports.updateRestaurantProfile = async (req, res) => {
 
 exports.verifyBusiness = async (req, res) => {
   try {
-    const { documentUrl } = req.body;
+    const { documentUrl, status } = req.body;
     const verification = await prisma.businessVerification.create({
-      data: { restaurantId: req.params.id, documentUrl, status: "PENDING" }
+      data: { restaurantId: req.params.id, documentUrl, status: status || "PENDING" }
     });
     res.status(201).json(verification);
   } catch (error) {

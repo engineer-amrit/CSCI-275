@@ -12,14 +12,15 @@ router.get('/claimed', restaurantController.getClaimedRestaurants);
 // NEW: General user suggestion route
 router.post('/suggest', restaurantController.suggestRestaurant);
 
-// ✅ GET all restaurants for current vendor only
+// ✅ GET all restaurants (optionally filtered to a single vendor)
 router.get('/', async (req, res) => {
   try {
-    // Use the test vendor ID
-    const vendorId = 'test-vendor-123';
-    
+    const { vendorId } = req.query;
+    const where = vendorId ? { vendorId: String(vendorId) } : {};
+
     const restaurants = await prisma.restaurant.findMany({
-      where: { vendorId: vendorId },
+      where,
+      include: { verifications: true, tags: true },
       orderBy: { name: 'asc' }
     });
     
