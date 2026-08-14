@@ -1,7 +1,14 @@
-import { describe, it, expect } from "vitest";
+import { beforeEach, describe, it, expect, vi } from "vitest";
 import { restaurantService } from "@/services";
+import { installMockFetch, resetMockState } from "./mockFetch";
 
 describe("restaurantService", () => {
+  beforeEach(() => {
+    vi.restoreAllMocks();
+    installMockFetch();
+    resetMockState();
+  });
+
   describe("getAll", () => {
     it("returns a list of restaurants", async () => {
       const restaurants = await restaurantService.getAll();
