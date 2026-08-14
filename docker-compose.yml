@@ -1,0 +1,95 @@
+name: restaurant-moderation
+
+# One-click startup for the whole Restaurant Review Moderation stack:
+#   docker compose up --build
+# Then open http://localhost:5173 and sign in with
+#   moderator@admin.com / moderator123
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: moderation-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: alpha_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres-init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  user-auth:
+    build: ./apps/backend/moderation-api/services/src/user-auth
+    container_name: moderation-user-auth
+    environment:
+      PORT: 3001
+      SESSION_SECRET: change-me-in-production
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/alpha_db
+      ROOT_MODERATOR_NAME: Root Moderator
+      ROOT_MODERATOR_EMAIL: moderator@admin.com
+      ROOT_MODERATOR_PASSWORD: moderator123
+    ports:
+      - "3001:3001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  restaurant:
+    build: ./apps/backend/moderation-api/services/src/restaurant/vendor-profile-management/backend
+    container_name: moderation-restaurant
+    environment:
+      PORT: 5000
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/alpha_restaurant
+    ports:
+      - "3002:5000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  search:
+    build: ./apps/backend/moderation-api/services/src/search
+    container_name: moderation-search
+    environment:
+      PORT: 3003
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/alpha_search
+    ports:
+      - "3003:3003"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  moderation-api:
+    build:
+      context: .
+      dockerfile: apps/backend/moderation-api/Dockerfile
+    container_name: moderation-api
+    environment:
+      PORT: 3000
+      NODE_ENV: production
+      RESTAURANT_SERVICE_URL: http://restaurant:5000
+      USER_AUTH_SERVICE_URL: http://user-auth:3001
+      SEARCH_SERVICE_URL: http://search:3003
+    ports:
+      - "3000:3000"
+    depends_on:
+      - user-auth
+      - restaurant
+
+  moderation-web:
+    build:
+      context: .
+      dockerfile: apps/web/moderation-web/Dockerfile
+    container_name: moderation-web
+    ports:
+      - "5173:80"
+    depends_on:
+      - moderation-api
+
+volumes:
+  postgres_data:

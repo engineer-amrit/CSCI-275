@@ -1,0 +1,10 @@
+**/node_modules
+**/dist
+**/*.tsbuildinfo
+**/.git
+**/.env
+**/*.log
+.git
+apps/backend/moderation-api/services
+docs
+rule.md
